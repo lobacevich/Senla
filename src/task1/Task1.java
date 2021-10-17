@@ -13,7 +13,7 @@ public class Task1 {
         try (Scanner sc = new Scanner(System.in)) {
             return sc.nextLine();
         }
-    }
+    } 
 
     private static int getDigitsSum(String line) {
         int sum = 0;
