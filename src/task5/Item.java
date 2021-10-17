@@ -25,6 +25,7 @@ public class Item {
         return pricePerVolume;
     }
 
+    @Override
     public String toString() {
         return name;
     }

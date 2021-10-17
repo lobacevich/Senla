@@ -3,10 +3,11 @@ package task5;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class Task5 {
-    static final int maxVolume = 20;
-    static Safe bestSafe = new Safe(maxVolume);
+    private static final int MAX_VOLUME = 20;
+    private static Safe bestSafe = new Safe(MAX_VOLUME);
 
     public static void main(String[] args) {
         final Item item1 = new Item("item1", 5, 3);
@@ -22,37 +23,37 @@ public class Task5 {
         final Item[] itemsArr = {item1, item2, item3, item4, item5, item6, item7, item8, item9, item10};
 
         ArrayList<Item> items = new ArrayList<>(Arrays.asList(itemsArr));
-        if (itemsArr.length < 50)
+        if (itemsArr.length < 50) {
             chooseItems(bestSafe, items);
-        else
+        } else {
             putItems(bestSafe, itemsArr);
-        System.out.println("В сейфе " + bestSafe + "\n" + "ценность " +
-                bestSafe.getCurrPrice() + "\n" + "объем " + bestSafe.getCurrVolume());
+        }
+        System.out.println(bestSafe);
     }
 
-    static void checkSafe(Safe safe) {
+    private static void checkSafe(Safe safe) {
         if (safe.getCurrPrice() > bestSafe.getCurrPrice()) {
             bestSafe = safe;
         }
     }
 
-    static void chooseItems(Safe safe, ArrayList<Item> items) {
+    private static void chooseItems(Safe safe, List<Item> items) {
         checkSafe(safe);
         for (int i = 0; i < items.size(); i++) {
             Safe safeCopy = new Safe(safe);
-            ArrayList<Item> newItems = (ArrayList<Item>) items.clone();
-            if (safeCopy.addItem((Item) newItems.get(i))) {
+            List<Item> newItems = new ArrayList<>(items);
+            if (safeCopy.addItem(newItems.get(i))) {
                 newItems.remove(i);
                 chooseItems(safeCopy, newItems);
             }
         }
     }
 
-    static void putItems(Safe safe, Item[] items) {
+    private static void putItems(Safe safe, Item[] items) {
         Arrays.sort(items, Comparator.comparingDouble(Item::getPricePerVolume).reversed());
         for (Item item : items) {
             safe.addItem(item);
-            if (safe.getCurrVolume() == maxVolume)
+            if (safe.getCurrVolume() == MAX_VOLUME)
                     return;
         }
     }

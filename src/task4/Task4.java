@@ -1,21 +1,26 @@
 package task4;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Task4 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String number = sc.next();
-        sc.close();
-        HashMap<Character, String[]> digitsMap= makeDigitsMapWithMaxDigit(number);
+        String number = getConsoleInput();
+        Map<Character, String[]> digitsMap= makeDigitsMapWithMaxDigit(number);
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < number.length(); j++)
                 System.out.print(digitsMap.get(number.charAt(j))[i] + (j == number.length() - 1 ? "\n" : ""));
         }
     }
 
-    private static HashMap makeDigitsMap() {
+    private static String getConsoleInput() {
+        try (Scanner sc = new Scanner(System.in)) {
+            return sc.next();
+        }
+    }
+
+    private static Map<Character, String[]> makeDigitsMap() {
         HashMap<Character, String[]> digits = new HashMap<>();
         digits.put('0', new String[] {"   ***   ", "  *   *  ", " *     * ", " *     * ", " *     * ", "  *   *  ", "   ***   "});
         digits.put('1', new String[] {"    *    ", "   **    ", "  * *    ", "    *    ", "    *    ", "    *    ", " ******* "});
@@ -41,8 +46,8 @@ public class Task4 {
         return max;
     }
 
-    private static HashMap makeDigitsMapWithMaxDigit(String num) {
-        HashMap<Character, String[]> digitsMap= makeDigitsMap();
+    private static Map<Character, String[]> makeDigitsMapWithMaxDigit(String num) {
+        Map<Character, String[]> digitsMap= makeDigitsMap();
         char maxDigit = getMaxDigit(num);
         for (int i = 0; i < 7; i ++)
             digitsMap.get(maxDigit)[i] = digitsMap.get(maxDigit)[i].replace('*', maxDigit);
